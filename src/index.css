@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #2A8B84;
+  --secondary-color: #F4A460;
+}
+
+body {
+  @apply bg-[#f5f8f8];
+  font-family: 'Orbitron', sans-serif;
+}
+
+.nav-link {
+  @apply text-white hover:text-gray-200 transition-colors uppercase tracking-wider;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.section-title {
+  @apply text-5xl text-center mb-12 uppercase tracking-wider;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.menu-section {
+  @apply bg-[#2A8B84] text-white p-6 rounded-lg shadow-lg;
+}
+
+.menu-item {
+  @apply border-b border-[#3aa59d] py-4 last:border-b-0;
+}
+
+.gallery-image {
+  @apply relative overflow-hidden rounded-lg shadow-lg;
+}
+
+.contact-info {
+  @apply text-xl tracking-wider;
+  font-family: 'Orbitron', sans-serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[#2A8B84] text-white py-2 px-4 rounded-md hover:bg-[#247870] transition-colors duration-300;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f8f8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2A8B84;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #247870;
+}
+
+/* Modal styles */
+.modal-overlay {
+  backdrop-filter: blur(4px);
+}
+
+/* Gallery animations */
+.gallery-item-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.gallery-item-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.gallery-item-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gallery-item-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
