@@ -1,15 +1,40 @@
 import { FacebookProvider, Page } from 'react-facebook';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Utensils, Coffee, Beef, Salad, Cookie, History, Users, 
   Clock, MapPin, Phone, Mail, Menu as MenuIcon, X,
-  Facebook, Instagram, Twitter
+  Facebook, Instagram, Twitter, Download, FileDown
 } from 'lucide-react';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [showDownloadButton, setShowDownloadButton] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setShowDownloadButton(currentScrollY > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleDownload = (format: 'pdf' | 'jpg') => {
+    const fileUrls = {
+      pdf: '/menu.pdf',
+      jpg: '/menu.jpg'
+    };
+    
+    const link = document.createElement('a');
+    link.href = fileUrls[format];
+    link.download = `kites-menu.${format}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -162,6 +187,36 @@ function App() {
 
   return (
     <div className="min-h-screen">
+      {/* Floating Download Button */}
+      <AnimatePresence>
+        {showDownloadButton && (
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50"
+          >
+            <div className="bg-[#F4A460] text-white rounded-lg shadow-lg overflow-hidden">
+              <button
+                onClick={() => handleDownload('pdf')}
+                className="flex items-center space-x-2 px-4 py-3 hover:bg-[#2A8B84] transition-colors w-full"
+              >
+                <FileDown size={20} />
+                <span>PDF Menu</span>
+              </button>
+              <div className="border-t border-[#f5b77d]"></div>
+              <button
+                onClick={() => handleDownload('jpg')}
+                className="flex items-center space-x-2 px-4 py-3 hover:bg-[#2A8B84] transition-colors w-full"
+              >
+                <Download size={20} />
+                <span>JPG Menu</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-[#2A8B84]">
         <div className="container mx-auto px-4">
